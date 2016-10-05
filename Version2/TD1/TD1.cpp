@@ -27,7 +27,7 @@ using namespace std;
 //
 //CHAR_INFO buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
-int main(int argc, _TCHAR* argv[])
+int main()
 {
 
 	Game game;

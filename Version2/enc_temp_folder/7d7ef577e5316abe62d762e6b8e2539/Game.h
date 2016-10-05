@@ -34,13 +34,16 @@ private:
 
 	Hero* player;
 
+
+
+
 	HANDLE hOutput;
 
 	COORD dwBufferSize;
 	COORD dwBufferCoord;
 	SMALL_RECT rcRegion;
 
-	CHAR_INFO buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	CHAR_INFO** buffer;
 
 	NYTimer timer;
 	//std::vector<Player> _players;

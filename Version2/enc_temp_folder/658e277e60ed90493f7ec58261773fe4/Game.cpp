@@ -10,9 +10,30 @@ Game::Game()
 	dwBufferCoord = { 0, 0 };
 	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	//buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
-	player = new Hero();
+	buffer = new CHAR_INFO*[SCREEN_WIDTH];
+	for (int i = 0; i < SCREEN_WIDTH; ++i)
+	{
+		buffer[i] = new CHAR_INFO[SCREEN_HEIGHT];
+	}
+
+
+	int** a;
+
+	a = new int*[20];
+	for (int i = 0; i < 20; ++i)
+	{
+		a[i] = new int[30];
+	}
+
+	buffer[0][0].Char.AsciiChar = 'X';
+	buffer[0][0].Attributes = 0x0E;
+
+	buffer[1][0].Char.AsciiChar = 'A';
+	buffer[1][0].Attributes = 0x0E;
+
+	player = new Hero(buffer);
 }
 
 

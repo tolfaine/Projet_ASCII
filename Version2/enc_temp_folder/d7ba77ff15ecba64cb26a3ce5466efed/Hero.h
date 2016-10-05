@@ -7,10 +7,11 @@
 
 enum Direction { UP, DOWN, RIGHT, LEFT };
 
+
 class Hero
 {
 public:
-	Hero();
+	Hero(CHAR_INFO** gameBuffer);
 	~Hero();
 
 	// called during inputs()
@@ -22,15 +23,22 @@ public:
 	void checkCollision();
 	
 	// called during render
+
 	void renderHero();
 
-
 private:
-
 	COORD coord;
 	int speed;
+	CHAR_INFO** buffer;
+	COORD bufferSize;
+
 	CHAR_INFO sprite[7][4];
 	std::array<bool, 4> directions;
+
+	HANDLE hOutput;
+	SMALL_RECT rcRegion;
+
+
 
 };
 

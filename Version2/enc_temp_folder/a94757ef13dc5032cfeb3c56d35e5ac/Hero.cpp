@@ -3,8 +3,11 @@
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 25
 
-Hero::Hero()
+Hero::Hero(CHAR_INFO** gameBuffer)
 {
+	
+	buffer = gameBuffer;
+	CHAR_INFO inf = buffer[1][0];
 
 	directions[0] = false;
 	directions[1] = false;
@@ -41,6 +44,11 @@ Hero::Hero()
 	sprite[1][3].Attributes = 0x0A;
 	sprite[2][3].Char.AsciiChar = ' ';
 	sprite[2][3].Attributes = 0x0A;
+
+	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+	bufferSize.X = 7 ;
+	bufferSize.Y = 4 ;
 }
 
 
@@ -100,5 +108,14 @@ void Hero::checkCollision()
 void Hero::renderHero()
 { 
 
-}
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
 
+		//buffer[coord.X + i][coord.Y + i]= sprite[i][j];
+		}
+	}
+/*	WriteConsoleOutput(hOutput, (CHAR_INFO *)sprite, bufferSize,
+		coord, &rcRegion);*/
+}
