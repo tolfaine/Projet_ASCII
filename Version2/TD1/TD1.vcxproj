@@ -79,15 +79,39 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentPool.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Generator.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Missile.h" />
+    <ClInclude Include="Movable.h" />
     <ClInclude Include="NYTimer.h" />
+    <ClInclude Include="Parametres.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="Square.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentPool.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="Movable.cpp" />
     <ClCompile Include="NYTimer.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="Square.cpp" />
     <ClCompile Include="TD1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
