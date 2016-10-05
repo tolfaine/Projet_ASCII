@@ -3,7 +3,7 @@
 using namespace std;
 Game::Game()
 {
-
+	
 	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT };
 	dwBufferCoord = { 0, 0 };
@@ -114,13 +114,16 @@ void Game::inputs()
 
 void Game::update()
 {
+	//loop -> call update method for each component
+
 	clear();
 	player->update();
 }
 
 void Game::render()
 {
-	
+
+
 	renderPlayer();
 
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
@@ -159,4 +162,34 @@ void Game::clear()
 			buffer[i][j].Attributes = 0;
 		}
 	}
+}
+
+
+vector<GameObject*> Game::getGameObjectAt(const int x, const int y)
+{
+	return collisionMatrix[x][y];
+}
+
+void Game::setGameObjectAt(const int x, const int y, GameObject* c)
+{
+	collisionMatrix[x][y].push_back(c);
+}
+
+void Game::removeGameObjectAt(const int x, const int y, GameObject* c)
+{
+	auto v = collisionMatrix[x][y];
+
+	auto it = find(v.begin(), v.end(), c);
+
+	if (it != v.end())
+	{
+		// remove de collisionMatrix
+		v.erase(it);
+		
+		// remove de components
+		objects.erase(it);
+
+		// appeler suppression dans pool
+	}
+
 }

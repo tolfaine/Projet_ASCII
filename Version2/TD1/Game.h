@@ -4,13 +4,18 @@
 #include <vector>
 #include <iostream>
 #include <Windows.h>
+
+#include "Parametres.h"
 #include "NYTimer.h"
 #include "Hero.h"
+#include "GameObject.h"
+#include "ComponentPool.h"
 
 
 #define SCREEN_WIDTH 100
 #define SCREEN_HEIGHT 30
 #define TIME_PER_FRAME 1000 / 10
+
 
 
 class Game
@@ -32,9 +37,21 @@ public:
 	void clear();
 
 
+	std::vector<GameObject*> getGameObjectAt(const int x, const int y);
+	void setGameObjectAt(const int x, const int y, GameObject* c);
+	void removeGameObjectAt(const int x, const int y, GameObject* c);
+
+
 private:
 
 	Hero* player;
+
+
+	std::vector<GameObject*> collisionMatrix[SCREEN_HEIGHT][SCREEN_WIDTH];
+	std::vector<GameObject*> objects;
+
+	//ComponentPool pool;
+
 
 	HANDLE hOutput;
 
