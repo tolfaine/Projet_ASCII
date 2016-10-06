@@ -1,24 +1,35 @@
 #include "Game.h"
 
 using namespace std;
+
 Game::Game()
 {
-	
+	pEngine = PhysicsEngine(this);
 	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT };
 	dwBufferCoord = { 0, 0 };
 	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-	buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-	player = new Hero();
+	//buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	//player = new Hero();
 
+	init();
+	run();
 }
 
 
 Game::~Game()
 {
+
 }
 
+void Game::init()
+{
+	//rajout des objets
+	Hero player1 = Hero(this, Coord{10.0, 10.0}, 1);
+	components.push_back(player1);
 
+	controllers.push_back(PlayerController(player1));
+}
 
 void Game::run()
 {
@@ -33,17 +44,15 @@ void Game::run()
 		double elapsed = current - previous;
 		previous = current;
 
+		cout << current << " " << elapsed << endl;
+
 		lag += elapsed;
 
 		inputs();
-
-		
 		while (lag >= TIME_PER_FRAME)
 		{
-			update();
+			update(elapsed);
 			lag -= TIME_PER_FRAME;
-
-			
 		}
 		render();
 	}
@@ -68,80 +77,46 @@ void Game::resume()
 
 void Game::inputs()
 {
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-	{
-		player->setDirection(LEFT,true);
-	//	cout << "LEFT" << endl;
+	for (Controller controller : controllers) {
+		controller.inputs();
 	}
-	else
-	{
-		player->setDirection(LEFT, false);
-	}
-	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-	{
-		player->setDirection(RIGHT, true);
-	//	cout << "RIGHT" << endl;
-	}
-	else
-	{
-		player->setDirection(RIGHT, false);
-	}
-	if (GetAsyncKeyState(VK_UP) & 0x8000)
-	{
-		player->setDirection(UP, true);
-		//cout << "UP" << endl;
-	}
-	else
-	{
-		player->setDirection(UP, false);
-	}
-	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-	{
-		player->setDirection(DOWN, true);
-	//	cout << "DOWN" << endl;
-	}
-	else
-	{
-		player->setDirection(DOWN, false);
-	}
-
-	if (GetAsyncKeyState(VK_NUMPAD0) & 0x8000)
-	{
-		cout << "SHOT DAT MORTHAFUCKA" << endl;
-	}
-
 }
 
-void Game::update()
+void Game::update(long elapsedMs)
 {
 	//loop -> call update method for each component
 
 	clear();
-	player->update();
+	for (GameObject component : components)
+	{
+		component.update(elapsedMs);
+	}
+
+	pEngine.update(elapsedMs);
 }
 
 void Game::render()
 {
+	for (GameObject component : components) {
+		draw(component.getRenderInfo());
+	}
 
-
-	renderPlayer();
-
-
-	//Render screen
-
-
-	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
+	WriteConsoleOutput(hOutput, (CHAR_INFO*)map, dwBufferSize,
 		dwBufferCoord, &rcRegion);
 }
 
-void Game::renderPlayer()
+void Game::draw(const std::pair<COORD, vector<Pixel>>& renderInfo)
 {
-	int spriteX = player->spriteX;
-	int spriteY = player->spriteY;
+	COORD c = renderInfo.first;
 
-	std::pair<COORD, CHAR_INFO* > playerRenderInfo = player->getRenderInfo();
-	CHAR_INFO c1 = playerRenderInfo.second[0];
-	COORD c = playerRenderInfo.first;
+	for (Pixel pix : renderInfo.second)
+	{
+		map[c.Y + pix.y][c.X + pix.x] = pix.c;
+	}
+
+	/*int spriteX = renderInfo.second.width;
+	int spriteY = renderInfo.second.height;
+
 
 	int index = 0;
 
@@ -149,10 +124,9 @@ void Game::renderPlayer()
 	{
 		for (int j = 0; j < spriteY; j++)
 		{
-			buffer[j + c.Y][i + c.X] = playerRenderInfo.second[index++];
-
+			map[j + c.Y][i + c.X] = renderInfo.second.tab[index++];
 		}
-	}
+	}*/
 }
 
 void Game::clear()
@@ -161,39 +135,9 @@ void Game::clear()
 	{
 		for (int j = 0; j < SCREEN_WIDTH; j++)
 		{
-			buffer[i][j].Char.AsciiChar = '\0';
-			buffer[i][j].Char.UnicodeChar = '\0';
-			buffer[i][j].Attributes = 0;
+			map[i][j].Char.AsciiChar = '\0';
+			map[i][j].Char.UnicodeChar = '\0';
+			map[i][j].Attributes = 0;
 		}
 	}
-}
-
-
-vector<GameObject*> Game::getGameObjectAt(const int x, const int y)
-{
-	return collisionMatrix[x][y];
-}
-
-void Game::setGameObjectAt(const int x, const int y, GameObject* c)
-{
-	collisionMatrix[x][y].push_back(c);
-}
-
-void Game::removeGameObjectAt(const int x, const int y, GameObject* c)
-{
-	auto v = collisionMatrix[x][y];
-
-	auto it = find(v.begin(), v.end(), c);
-
-	if (it != v.end())
-	{
-		// remove de collisionMatrix
-		v.erase(it);
-		
-		// remove de components
-		objects.erase(it);
-
-		// appeler suppression dans pool
-	}
-
 }

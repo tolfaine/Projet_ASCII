@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -79,36 +79,36 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ComponentPool.h" />
+    <ClInclude Include="AIController.h" />
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Missile.h" />
-    <ClInclude Include="Movable.h" />
     <ClInclude Include="NYTimer.h" />
     <ClInclude Include="Parametres.h" />
-    <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsEngine.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Square.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ComponentPool.cpp" />
+    <ClCompile Include="AIController.cpp" />
+    <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Missile.cpp" />
-    <ClCompile Include="Movable.cpp" />
     <ClCompile Include="NYTimer.cpp" />
-    <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Square.cpp" />
     <ClCompile Include="TD1.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

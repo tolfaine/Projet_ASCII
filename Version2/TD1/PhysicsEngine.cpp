@@ -3,15 +3,16 @@
 
 
 //Give the game reference in the constructor
+PhysicsEngine::PhysicsEngine(Game* game)
+{
+	this->game = game;
+}
 
 PhysicsEngine::~PhysicsEngine()
 {
 }
 
-void update() {
-	//collistionMatrix <= c'est le tableau d'affichage
-}
-
+/*
 std::vector<GameObject*> PhysicsEngine::getByRect(const RectangleShape& rect)
 {
 	std::vector<GameObject*> colliders;
@@ -20,20 +21,41 @@ std::vector<GameObject*> PhysicsEngine::getByRect(const RectangleShape& rect)
 		for (int j = rect.leftTop.y; j < rect.leftTop.y + rect.height; j++) {
 			if (i > -1 && i < SCREEN_WIDTH && j > -1 && j < SCREEN_HEIGHT) {
 				pixel = mapPixel[x][y];
-				if(pixel.reference != nullptr)//check if point out a black unique object ? (the background)
+				if (pixel.reference != nullptr)//check if point out a black unique object ? (the background)
 					colliders.push_back(pixel.reference);
 			}
 		}
 	}
 	return colliders;
-}
+}*/
 
 
-bool PhysicsEngine::update(GameObject* o, long elaspedMS)
+void PhysicsEngine::update(long elaspedMS)
 {
-	//foreach GameObject*
+	std::vector<GameObject*> components = game->getComponents();
+	Coord oCoord;
 
 
+	for (GameObject* currentObj : components)
+	{
+		if (currentObj->isDead())
+			continue;
+
+		oCoord = currentObj->getCoord();//given by reference
+		oCoord.x += currentObj->getDirection().x * currentObj->getSpeed() * elaspedMS;
+		oCoord.y += currentObj->getDirection().y * currentObj->getSpeed() * elaspedMS;
+
+		for (GameObject* currentObj2 : components)
+		{
+			if (currentObj != currentObj2 && !currentObj2->isDead() && currentObj->getRect().intersect(currentObj2->getRect()))
+			{
+				currentObj.collide(currentObj2);
+				currentObj2.collide(currentObj);
+			}
+		}
+	}
+
+	/*
 	Coord newCoord;
 	Coord oCoord = o->getCoord();
 	PhysicsComponent* oPhysics = o->getPhysicsComponent();
@@ -45,7 +67,7 @@ bool PhysicsEngine::update(GameObject* o, long elaspedMS)
 	//Recup les trucs touchés
 	collisionMatrix->getByRect(o->hitbox);
 
-	listWall = listTouched->findByType("WALL");
+	listWall = objsInHitbox->findByType("WALL");
 
 
 	//Peut etre fait directement par l'objet ?
@@ -55,10 +77,10 @@ bool PhysicsEngine::update(GameObject* o, long elaspedMS)
 
 	oCoord = newCoord;
 
-	for (GameObject* touched : listTouched) {
-		if (type != wall) {
-			o.collide(touched);
-			touched.collide(o);
+	for (GameObject* objInHitbox : objsInHitbox) {
+		if (!objInHitbox->isDead()) {
+			currentObj.collide(objInHitbox);
+			objInHitbox.collide(currentObj);
 		}
 	}
 
@@ -73,5 +95,5 @@ bool PhysicsEngine::update(GameObject* o, long elaspedMS)
 	//	o->setCoord(newCoord);
 	//}
 
-
+	*/
 }

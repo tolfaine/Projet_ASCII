@@ -3,21 +3,16 @@
 
 #include <array>
 #include <Windows.h>
-
-#include "Component.h"
-#include "PhysicsComponent.h"
-
-
+#include "Game.h"
 class Game;
 
+enum Direction { UP, DOWN, RIGHT, LEFT };
 
 enum GameObjectType
 {
 	WALL,
 	HERO,
-	ENEMY,
-	MISSILE,
-	MISSILE_H
+	ENEMY
 };
 
 struct Coord
@@ -26,55 +21,72 @@ struct Coord
 	double y;
 };
 
+struct Pixel {
+	CHAR_INFO c;
+	int x;
+	int y;
+};
+
 struct RectangleShape {
-	Coord leftTop;//if used this, need to update it when object moves
+	//Coord leftTop;//if used this, need to update it when object moves
 	int width;
 	int height;
 };
 
-class GameObject : public Component
+class GameObject
 {
 
 public:
 
-	GameObject(Game* g) : Component(g) {}
+
+	GameObject(Game* g);
 	~GameObject();
 
-	virtual void update(long ellapsedMs);
-	virtual void render();
+	// called during inputs()
+	void setDirection(Direction);
+	void resetDirections();
+	// called during logic()
+	void update(long elapsedMs);
+	//virtual bool collide(COORD);
 
-	virtual COORD checkMove(long ellapsedMS);
-	virtual void move(COORD);
-	virtual bool collide(COORD);
+	std::pair<COORD, std::vector<Pixel>> GameObject::getRenderInfo();
 
+	//virtual void update(long ellapsedMs);
+	//virtual void render();
+
+	//virtual COORD checkMove(long ellapsedMS);
+	//virtual void move(COORD);
+	
 
 	void takeDamage(const int d);
 	inline const int getDamage() const { return damage; }
 	void destroy();
 
 
-
-	bool operator==(Component* c) { return this == c; }
+	//bool operator==(Component* c) { return this == c; }
 
 	GameObjectType getType() { return _type; }
-	Coord& getCoord() { return _coord; }
-	PhysicsComponent* getPhysicsComponent() { return _physics; }
+	Coord& getCoord() { return coord; }
 
 protected:
+	Game* game;
 	GameObjectType _type;
-	//Coord _coord;
-	//PhysicsComponent* _physics;
 
 	bool invulnerability;
 	int damage;
 	int life;
 
+	Coord coord;//leftTop of the sprite
+	
+	//Problem here !!!
+	//CHAR_INFO sprite[spriteX][spriteY];
+	int directions[2];
+
 	double speed;
-	std::vector<bool> direction;
 	RectangleShape hitbox;
-	COORD refCoord;//leftTop of the sprite
-	std::vector<COORD> coords;
-	//Sprite sprite
+	
+	std::vector<Pixel> sprite;
+
 
 };
 

@@ -1,22 +1,20 @@
 #pragma once
 
-
 #include <vector>
-
-
-#include "Component.h"
 #include "GameObject.h"
-#include "PhysicsComponent.h"
 
-
-class PhysicsEngine : public Component
+class PhysicsEngine
 {
-		
 public:
+	PhysicsEngine();
+	PhysicsEngine(Game* game);
 	~PhysicsEngine();
+	
 	bool move(GameObject* o, long elaspedMS);
 
+	void update(long elapsedMs);
 private:
+	Game* game;
 	//std::vector<GameObject*> getGameObjectsAt(PhysicsComponent* physicsC);
 };
 

@@ -1,5 +1,19 @@
 #include "GameObject.h"
 
+
+using namespace std;
+
+GameObject::GameObject(Game* game)
+{
+	this->game = game;
+
+	CHAR_INFO c;
+	c.Char.UnicodeChar = '|';
+	c.Attributes = 0x0A;
+
+	sprite.push_back(Pixel{c,0,0});
+}
+
 GameObject::~GameObject()
 {
 
@@ -8,47 +22,58 @@ GameObject::~GameObject()
 void GameObject::update(long ellapsedMs)
 {
 	// retourne la nouvelle position de l'objet
-	COORD newCoord = checkMove(ellapsedMs);
+	//COORD newCoord = checkMove(ellapsedMs);
 
 	// vérifie si l'objet peut se déplacer vers la nouvelle position
 	// renvoie faux uniquement si on essaye de se déplacer vers un mur ou hors des limites de la map
-	if (collide(newCoord))
+	/*if (collide(newCoord))
 	{
 		move(newCoord);
-	}
-	
+	}*/	
 }
-
 
 /*
   Calcul la prochaine position de l'objet
-*/
-COORD GameObject::checkMove(long ellapsedMS)
-{
-
-}
-
-void GameObject::move(COORD coord)
-{
-
-}
 
 bool GameObject::collide(COORD coord)
 {
 
 }
+*/
 
-
-
-
-
-
-
-void GameObject::render()
+std::pair<COORD, vector<Pixel>> GameObject::getRenderInfo()
 {
-	//sprite + position
+
+
+	return std::make_pair(COORD{coord.x, coord.y}, sprite);//conversion to int
 }
 
+void GameObject::resetDirections()
+{
+	directions[0] = 0;
+	directions[1] = 0;
+}
+
+
+void GameObject::setDirection(Direction dir)
+{
+
+	switch (dir)
+	{
+	case UP:
+		directions[1] = -1;
+		break;
+	case DOWN:
+		directions[1] = 1;
+		break;
+	case RIGHT:
+		directions[0] = 1;
+		break;
+	case LEFT:
+		directions[0] = -1;
+		break;
+	}
+}
 
 void GameObject::takeDamage(const int d)
 {
@@ -62,5 +87,5 @@ void GameObject::takeDamage(const int d)
 
 void GameObject::destroy()
 {
-	game->removeGameObjectAt(coord.X, coord.Y, this);
+	//game->removeGameObjectAt(coord.X, coord.Y, this);
 }

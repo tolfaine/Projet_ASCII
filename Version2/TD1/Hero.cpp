@@ -4,23 +4,22 @@
 
 using namespace std;
 
-Hero::Hero()
+Hero::Hero(Game* game, Coord position, double speed)
 {
+	this->coord = position;
+	this->speed = speed;
 
-	directions[0] = false;
-	directions[1] = false;
-	directions[2] = false;
-	directions[3] = false; 
+	directions[0] = 0;
+	directions[1] = 0;
 
-	coord.X = 0;
-	coord.Y = 0;
-
+	hitbox.height = spriteY;
+	hitbox.width = spriteX;
 
 	for (int i = 0; i < spriteX; i++)
 	{
 		for (int j = 0;j < spriteY; j++)
 		{
-			sprite[i][j].Char.UnicodeChar = '\0';
+			sprite[i][j].Char.UnicodeChar = '\0'; 
 			sprite[i][j].Char.AsciiChar = '\0';
 			sprite[i][j].Attributes = 0;
 
@@ -30,7 +29,7 @@ Hero::Hero()
 	sprite[0][0].Char.AsciiChar = '=';
 	sprite[0][0].Attributes = 0x0A;
 	sprite[0][1].Char.AsciiChar = '=';
-	sprite[0][1].Attributes = 0x0A;
+	sprite[0][1].Attributes = 0x0;
 	sprite[0][2].Char.AsciiChar = '=';
 	sprite[0][2].Attributes = 0x0A;
 
@@ -69,27 +68,7 @@ Hero::~Hero()
 {
 }
 
-
-void Hero::setDirection(Direction dir, bool value)
-{
-
-	switch (dir)
-	{
-	case UP:
-		directions[0] = value;
-		break;
-	case DOWN:
-		directions[1] = value;
-		break;
-	case RIGHT:
-		directions[2] = value;
-		break;
-	case LEFT:
-		directions[3] = value;
-		break;
-	}
-}
-
+/*
 void Hero::update()
 {
 	updatePosition();
@@ -128,9 +107,5 @@ void Hero::renderHero()
 { 
 
 }
-std::pair<COORD, CHAR_INFO*> Hero::getRenderInfo()
-{
 
-
-	return std::make_pair(coord,(CHAR_INFO*)&sprite);
-}
+*/
