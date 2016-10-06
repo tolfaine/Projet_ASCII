@@ -26,6 +26,11 @@ struct Coord
 	double y;
 };
 
+struct RectangleShape {
+	Coord leftTop;//if used this, need to update it when object moves
+	int width;
+	int height;
+};
 
 class GameObject : public Component
 {
@@ -56,28 +61,20 @@ public:
 	PhysicsComponent* getPhysicsComponent() { return _physics; }
 
 protected:
-
 	GameObjectType _type;
-	Coord _coord;
-	PhysicsComponent* _physics;
-
+	//Coord _coord;
+	//PhysicsComponent* _physics;
 
 	bool invulnerability;
-
-
-
-
-
-
-	COORD refCoord;
-	std::vector<COORD> coords;
-	int speed;
-
 	int damage;
 	int life;
 
-	//sprite
-	//direction
+	double speed;
+	std::vector<bool> direction;
+	RectangleShape hitbox;
+	COORD refCoord;//leftTop of the sprite
+	std::vector<COORD> coords;
+	//Sprite sprite
 
 };
 

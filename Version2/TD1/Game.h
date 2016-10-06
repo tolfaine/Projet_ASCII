@@ -16,7 +16,11 @@
 #define SCREEN_HEIGHT 30
 #define TIME_PER_FRAME 1000 / 10
 
-
+//Used to create the array representative of the screen => used also as a collision matrix
+struct MapPixel	{
+	CHAR_INFO character;
+	GameObject* reference;
+};
 
 class Game
 {
@@ -46,6 +50,9 @@ private:
 
 	Hero* player;
 
+	
+
+	MapPixel mapScreen[SCREEN_HEIGHT][SCREEN_WIDTH];
 
 	std::vector<GameObject*> collisionMatrix[SCREEN_HEIGHT][SCREEN_WIDTH];
 	std::vector<GameObject*> objects;

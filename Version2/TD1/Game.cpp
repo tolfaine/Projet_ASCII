@@ -126,6 +126,10 @@ void Game::render()
 
 	renderPlayer();
 
+
+	//Render screen
+
+
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)buffer, dwBufferSize,
 		dwBufferCoord, &rcRegion);
 }

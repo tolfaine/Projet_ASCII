@@ -17,6 +17,6 @@ public:
 	bool move(GameObject* o, long elaspedMS);
 
 private:
-	std::vector<GameObject*> getGameObjectsAt(PhysicsComponent* physicsC);
+	//std::vector<GameObject*> getGameObjectsAt(PhysicsComponent* physicsC);
 };
 
