@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Game.h"
+#include <vector>
+
+#include "GameObject.h"
 #include "Structures.h"
 
-class Game;
+class GameObject;
 
 class InputEngine
 {
@@ -12,15 +14,15 @@ class InputEngine
 public:
 
 
-	InputEngine(Game* g);
+	InputEngine();
 	~InputEngine();
 
 
-	void handleInputs();
+	void handleInputs(std::vector<GameObject*>&);
 
 
 private:
 
-	Game* _game;
+
 };
 

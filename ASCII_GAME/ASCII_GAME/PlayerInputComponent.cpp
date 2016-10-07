@@ -35,3 +35,13 @@ Direction PlayerInputComponent::getDirection()
 	}
 	return dir;
 }
+
+
+bool PlayerInputComponent::isFiring()
+{
+	if (GetAsyncKeyState(VK_NUMPAD0) & 0x8000)
+	{
+		return true;
+	}
+	return false;
+}

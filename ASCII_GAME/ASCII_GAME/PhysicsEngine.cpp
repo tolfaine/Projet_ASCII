@@ -3,7 +3,7 @@
 
 using namespace std;
 
-PhysicsEngine::PhysicsEngine(Game* g) : _game(g)
+PhysicsEngine::PhysicsEngine()
 {
 
 }
@@ -20,9 +20,8 @@ PhysicsEngine::~PhysicsEngine()
 
 
 
-void PhysicsEngine::update(long elaspedMS)
+void PhysicsEngine::update(vector<GameObject*>& gObjects)
 {
-	std::vector<GameObject*> gObjects = _game->getGameObjects();
 	Coord oCoord;
 
 

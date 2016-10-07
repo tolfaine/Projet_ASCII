@@ -15,7 +15,7 @@ public:
 
 
 	virtual Direction getDirection();
-
+	virtual bool isFiring();
 
 
 

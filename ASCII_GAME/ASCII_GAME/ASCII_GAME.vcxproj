@@ -41,7 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -146,10 +146,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ASCII_GAME.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="InputEngine.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputComponent.cpp" />
+    <ClCompile Include="MissileInputComponent.cpp" />
     <ClCompile Include="NYTimer.cpp" />
     <ClCompile Include="PhysicsEngine.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
@@ -157,10 +159,12 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="InputEngine.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputComponent.h" />
+    <ClInclude Include="MissileInputComponent.h" />
     <ClInclude Include="NYTimer.h" />
     <ClInclude Include="Parametres.h" />
     <ClInclude Include="PhysicsEngine.h" />

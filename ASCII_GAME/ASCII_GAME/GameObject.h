@@ -12,13 +12,24 @@
 
 class Game;
 
+
 class GameObject
 {
 
 public:
 
 
-	GameObject(Game* g, InputComponent* i, double x, double y, int life, int damage, GameObjectType type);
+	GameObject(Game* g,
+		InputComponent* i,
+		double x,
+		double y,
+		HitBox hitbox,
+		int life,
+		int damage,
+		GameObjectFaction faction,
+		GameObjectType type,
+		double speed);
+
 	~GameObject();
 
 
@@ -26,6 +37,7 @@ public:
 
 	void takeDamage(GameObject*);
 
+	void fire(bool);
 
 	InputComponent* getInputComponent() { return _input; }
 
@@ -39,7 +51,8 @@ public:
 	int getLife() { return _life; }
 
 	int getMaxLife() { return _maxLife; }
-	GameObjectType getType() { return _type; }
+
+	GameObjectFaction getFaction() { return _faction; }
 
 	bool isDead() { return _dead; }
 
@@ -61,11 +74,13 @@ protected:
 	int _maxLife;
 	int _damage;
 
+	GameObjectFaction _faction;
 	GameObjectType _type;
-
 	HitBox _hitbox;
 
 	InputComponent* _input;
+
+	bool _isFiring;
 
 	bool _dead;
 
