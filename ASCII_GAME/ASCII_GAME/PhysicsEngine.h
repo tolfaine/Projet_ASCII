@@ -4,11 +4,10 @@
 #include <iostream>
 
 #include "Structures.h"
-#include "Game.h"
 #include "GameObject.h"
 #include "Parametres.h"
 
-class Game;
+class GameObject;
 
 class PhysicsEngine
 {
@@ -16,17 +15,15 @@ class PhysicsEngine
 public:
 
 	
-	PhysicsEngine(Game* g);
+	PhysicsEngine();
 	~PhysicsEngine();
 
-	void update(long elapsedMs);
+	void update(std::vector<GameObject*>&);
 
 	bool intersect(HitBox hit1, Coord coord1, HitBox hit2, Coord coord2);
 
 private:
-	Game* _game;
-
-
+	
 
 };
 

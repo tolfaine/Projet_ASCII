@@ -4,26 +4,30 @@
 using namespace std;
 
 
-GameObject::GameObject(Game* g, InputComponent* i, double x, double y, int life, int damage, GameObjectType type) : _game(g), _input(i)
+GameObject::GameObject(
+	Game* g,
+	InputComponent* i,
+	double x,
+	double y,
+	HitBox hitbox,
+	int life,
+	int damage,
+	GameObjectFaction faction,
+	GameObjectType type,
+	double speed)
 {
-	this->setPosition(Coord{ x,y });
-
-	_direction.x = 0;
-	_direction.y = 0;
-
+	_game = g;
+	_input = i;
+	setPosition(Coord{ x, y });
+	_hitbox = hitbox;
 	_life = life;
 	_damage = damage;
-
+	_faction = faction;
 	_type = type;
-
-	_hitbox.height = 3;
-	_hitbox.width = 5;
-
-	_speed = 2.0;
-
+	_speed = speed;
 	_dead = false;
-
 }
+
 
 
 GameObject::~GameObject()
@@ -34,12 +38,26 @@ GameObject::~GameObject()
 void GameObject::handleInputs()
 {
 	setDirection(_input->getDirection());
+	fire(_input->isFiring());
 }
+
+
+void GameObject::fire(bool isFiring)
+{
+	//cout << "value" << isFiring << endl;
+	if (isFiring)
+	{
+		_game->createGameObject(GameObjectData{ { _coord.x, _coord.y }, F_HERO, T_MISSILE });
+	}
+
+}
+
+
 
 void GameObject::takeDamage(GameObject* obj)
 {
 	//cout << "TAKE THAT MOTHERFUCKER" << endl;
-	if (obj->getType() != _type)
+	if (obj->getFaction() != _faction)
 	{
 		_life -= obj->getDamage();
 		if (_life <= 0)

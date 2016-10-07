@@ -2,15 +2,16 @@
 
 
 #include "Structures.h"
+#include "InputComponent.h"
 
-class InputComponent
+class MissileInputComponent : public InputComponent
 {
 
 
 public:
 
-	InputComponent();
-	~InputComponent();
+	MissileInputComponent();
+	~MissileInputComponent();
 
 	virtual Direction getDirection();
 	virtual bool isFiring();

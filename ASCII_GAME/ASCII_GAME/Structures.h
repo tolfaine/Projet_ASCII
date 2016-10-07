@@ -1,9 +1,8 @@
 #pragma once
 
 
-#include <Windows.h>
 #include <vector>
-
+#include <Windows.h>
 
 
 class Structures
@@ -14,30 +13,21 @@ public:
 };
 
 
-struct HitBox
+enum GameObjectFaction
 {
-	double width;
-	double height;
-};
-
-struct Pixel {
-	CHAR_INFO c;
-	int x;
-	int y;
-};
-
-struct SpriteData
-{
-	COORD coord;
-	std::vector<Pixel> pixels;
+	F_WALL,
+	F_HERO,
+	F_ENEMY,
 };
 
 enum GameObjectType
 {
-	WALL,
-	HERO,
-	ENEMY
+	T_WALL,
+	T_PLAYER,
+	T_ENEMY,
+	T_MISSILE
 };
+
 
 struct Coord
 {
@@ -59,3 +49,35 @@ enum _Direction
 	RIGHT,
 	CENTER
 };
+
+struct HitBox
+{
+	double width;
+	double height;
+};
+
+struct GameObjectData
+{
+	Coord coord;
+	GameObjectFaction faction;
+	GameObjectType type;
+};
+
+
+
+
+
+struct Pixel {
+	CHAR_INFO c;
+	int x;
+	int y;
+};
+
+struct SpriteData
+{
+	COORD coord;
+	std::vector<Pixel> pixels;
+};
+
+
+

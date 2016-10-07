@@ -7,25 +7,13 @@ using namespace std;
 Game::Game()
 {
 
-	GameObject* g1 = new GameObject(this, new PlayerInputComponent(), 5.0, 5.0,10,5,HERO);
-	g1->setSprite(populateSpriteHero(g1->getRenderInfo().pixels));
+	createGameObject(GameObjectData{ { 5.0, 5.0 }, F_HERO, T_PLAYER });
+	createGameObject(GameObjectData{ { 20.0, 20.0 }, F_ENEMY, T_ENEMY});
 
-	player = g1;
-
-	GameObject* g2 = new GameObject(this, new InputComponent(), 20.0, 20.0,5,0,ENEMY);
-	g2->setSprite(populateSpriteHero(g2->getRenderInfo().pixels));
-
-	_gameObjects.push_back(g1);
-	_gameObjects.push_back(g2);
-
-
-	_physics = new PhysicsEngine(this);
-	_inputs = new InputEngine(this);
+	_graphics = new GraphicsEngine();
+	_physics = new PhysicsEngine();
+	_inputs = new InputEngine();
 	_gameUI = new UI(this);
-	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
-	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT+10 };
-	dwBufferCoord = { 0, 0 };
-	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT+10 };
 
 }
 
@@ -50,24 +38,121 @@ void Game::run()
 
 		lag += elapsed;
 
-		//inputs();
+		inputs();
+		addGameObjects();
 		while (lag >= TIME_PER_FRAME)
 		{
-			update(elapsed);
+			update();
 			lag -= TIME_PER_FRAME;
 		}
-		renderGraphics();
+		render();
+		
 	}
 }
 
 
-void Game::update(double elaspedMS)
+void Game::update()
 {
-	_inputs->handleInputs();
-	_physics->update(elaspedMS);
+	_physics->update(_gameObjects);
 	_gameUI->update();
 	takeCareOfDeadBodies();
 }
+
+
+void Game::inputs()
+{
+	_inputs->handleInputs(_gameObjects);
+}
+
+
+void Game::render()
+{
+	_graphics->renderGraphics(_gameObjects);
+}
+
+
+void Game::createGameObject(GameObjectData data)
+{
+	_gameObjectsData.push_back(data);
+
+}
+
+void Game::addGameObjects()
+{
+	for (GameObjectData data : _gameObjectsData)
+	{
+		InputComponent* iComponent = new InputComponent();
+		int life = 0;
+		int damage = 0;
+		HitBox hitbox;
+		double speed;
+
+		switch (data.type)
+		{
+		case T_WALL:
+			// iComponent = new InputComponent();
+			life = 1000;
+			damage = 1000;
+			hitbox.height = 1.0;
+			hitbox.width = 1.0;
+			speed = -1.0;
+			break;
+
+		case T_PLAYER:
+			iComponent = new PlayerInputComponent();
+			life = 10;
+			damage = 5;
+			hitbox.height = 3.0;
+			hitbox.width = 5.0;
+			speed = 2.0;
+			break;
+
+		case T_ENEMY:
+			// iComponent = new InputComponent();
+			life = 5;
+			damage = 2;
+			hitbox.height = 3.0;
+			hitbox.width = 3.0;
+			speed = -2.0;
+			break;
+
+		case T_MISSILE:
+			iComponent = new MissileInputComponent();
+			life = 1;
+			damage = 1;
+			hitbox.height = 1;
+			hitbox.width = 3;
+			speed = 3.0;
+			break;
+		}
+
+
+		GameObject* g = new GameObject(
+			this,
+			iComponent,
+			data.coord.x,
+			data.coord.y,
+			hitbox,
+			life,
+			damage,
+			data.faction,
+			data.type,
+			speed);
+
+		if (data.type == T_MISSILE) g->setSprite(populateSpriteMissile(g->getRenderInfo().pixels));
+		//if (data.type == T_PLAYER) g->setSprite(populateSpriteHero(g->getRenderInfo().pixels));
+		else g->setSprite(populateSpriteHero(g->getRenderInfo().pixels));
+		
+
+
+		_gameObjects.push_back(g);
+	}
+
+	_gameObjectsData.clear();
+
+}
+
+
 
 
 void Game::takeCareOfDeadBodies()
@@ -78,45 +163,7 @@ void Game::takeCareOfDeadBodies()
 		if (_gameObjects[i]->isDead())
 		{
 			delete _gameObjects[i];
-			_gameObjects.erase(_gameObjects.begin() + 1);
-		}
-		//_gameObjects.clear();
-	}
-}
-
-
-void Game::renderGraphics()
-{
-	clear();
-	for (GameObject* gObject : _gameObjects) {
-		drawSprite(gObject->getRenderInfo());
-	}
-
-	drawSprite(_gameUI->getRenderInfo());
-	WriteConsoleOutput(hOutput, (CHAR_INFO*)map, dwBufferSize,
-		dwBufferCoord, &rcRegion);
-}
-
-
-void Game::drawSprite(const SpriteData spriteToDraw)
-{
-	COORD c = spriteToDraw.coord;
-
-	for (Pixel pix : spriteToDraw.pixels)
-	{
-		map[c.Y + pix.y][c.X + pix.x] = pix.c;
-	}
-}
-
-void Game::clear()
-{
-	for (int i = 0; i < SCREEN_HEIGHT; i++)
-	{
-		for (int j = 0; j < SCREEN_WIDTH; j++)
-		{
-			map[i][j].Char.AsciiChar = '\0';
-			map[i][j].Char.UnicodeChar = '\0';
-			map[i][j].Attributes = 0;
+			_gameObjects.erase(_gameObjects.begin() + i);
 		}
 	}
 }
@@ -192,3 +239,26 @@ vector<Pixel>& Game::populateSpriteHero(vector<Pixel>& spriteSheet)
 	return spriteSheet;
 }
 
+
+vector<Pixel>& Game::populateSpriteMissile(vector<Pixel>& spriteSheet)
+{
+
+	CHAR_INFO c;
+	c.Char.UnicodeChar = '8';
+	c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 0, 0 });
+
+
+	c.Char.UnicodeChar = '=';
+	c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 1, 0 });
+
+
+
+	c.Char.UnicodeChar = '>';
+	c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 2, 0 });
+
+
+	return spriteSheet;
+}

@@ -20,3 +20,9 @@ Direction InputComponent::getDirection()
 	dir.y = 0;
 	return dir;
 }
+
+
+bool InputComponent::isFiring()
+{
+	return false;
+}

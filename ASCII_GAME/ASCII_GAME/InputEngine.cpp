@@ -1,7 +1,11 @@
 #include "InputEngine.h"
 
 
-InputEngine::InputEngine(Game* g) : _game(g)
+using namespace std;
+
+
+
+InputEngine::InputEngine()
 {
 
 }
@@ -12,9 +16,9 @@ InputEngine::~InputEngine()
 }
 
 
-void InputEngine::handleInputs()
+void InputEngine::handleInputs(vector<GameObject*>& gObjects)
 {
-	for (GameObject* gObject : _game->getGameObjects())
+	for (GameObject* gObject : gObjects)
 	{
 		gObject->handleInputs();
 	}

@@ -2,8 +2,6 @@
 
 #include <vector>
 #include <iostream>
-#include <Windows.h>
-
 
 
 #include "Structures.h"
@@ -14,12 +12,19 @@
 #include "InputEngine.h"
 #include "InputComponent.h"
 #include "PlayerInputComponent.h"
+#include "MissileInputComponent.h"
 #include "UI.h"
+#include "GraphicsEngine.h"
+
 
 class GameObject;
 class PhysicsEngine;
+class GraphicsEngine;
 class InputEngine;
 class UI;
+
+
+
 
 class Game
 {
@@ -31,49 +36,37 @@ public:
 
 	// starts the game
 	void run();
-	void update(double);
+	void update();
+	void inputs();
+	void render();
 
+
+	void createGameObject(GameObjectData);
+	void addGameObjects();
 	std::vector<GameObject*> getGameObjects() { return _gameObjects; }
+	
+	
 	GameObject* getPlayer() { return player; }
 
 	void takeCareOfDeadBodies();
 
-
-	/*
-	* THE FOLLOWING METHODS ARE USED IN THE GAME LOOP
-	*/
-	// renders the graphics
-	void renderGraphics();
-
-	// clears the graphics buffer, shall be put in graphicsengine at some point
-	void clear();
-	// draws a sprite in the graphics buffer at the coordinates indicated, shall be put in graphicsengine at some point
-	void drawSprite(const SpriteData spriteToDraw);
-
 	std::vector<Pixel>& populateSpriteHero(std::vector<Pixel>& spriteSheet);
+	std::vector<Pixel>& populateSpriteMissile(std::vector<Pixel>& spriteSheet);
 
 
 private:
 	
 
 	std::vector<GameObject*> _gameObjects;
+	std::vector<GameObjectData> _gameObjectsData;
 
 
+	GraphicsEngine* _graphics;
 	PhysicsEngine* _physics;
 	InputEngine* _inputs;
 	UI* _gameUI;
 	
 	GameObject* player;
-
-	/*
-	* FOLLOWING MUST BE PUT IN GRAPHICSENGINE AT SOME POINT
-	*/
-	CHAR_INFO map[SCREEN_HEIGHT+10][SCREEN_WIDTH];
-	
-	HANDLE hOutput;
-	COORD dwBufferSize;
-	COORD dwBufferCoord;
-	SMALL_RECT rcRegion;
 
 	
 	NYTimer _timer;
