@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 
+using namespace std;
 UI::UI(Game* g)
 {
 	_game = g;
@@ -27,7 +28,22 @@ void UI::update() {
 		_sprite.pixels.push_back(Pixel{ c,i,SCREEN_HEIGHT });
 		_sprite.pixels.push_back(Pixel{ c,i,MIN_HEIGHT - 1 });
 	}
-	 
+
+
+	int life = _game->getPlayer()->getLife();
+	int maxLife = 10;
+	int startLifeDraw = (SCREEN_WIDTH / 2) + ((maxLife + 2) / 2);
+
+	for (int i = 0; i < SCREEN_WIDTH; i++) {
+		_sprite.pixels.push_back(Pixel{ c,(SCREEN_WIDTH,SCREEN_HEIGHT });
+		_sprite.pixels.push_back(Pixel{ c,i,MIN_HEIGHT - 1 });
+	}
+
+
+	/*
+	ostringstream ss;
+	ss << life;
+	string st = life.str();*/
 
 	/*
 	c.Char.UnicodeChar = '=';
@@ -95,4 +111,4 @@ void UI::update() {
 void UI::clean() {
 
 	_sprite.pixels.clear();
-}
+}  
