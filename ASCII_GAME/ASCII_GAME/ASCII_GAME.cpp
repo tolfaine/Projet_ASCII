@@ -1,13 +1,17 @@
 // ASCII_GAME.cpp : Defines the entry point for the console application.
 //
 
-
 #include "Game.h"
 
 
+#include <windows.h>
 int main(void)
 {
+	HWND console = GetConsoleWindow();
+	RECT r;
+	GetWindowRect(console, &r); //stores the console's current dimensions
 
+	MoveWindow(console,50, 50,1300,600, TRUE); // 800 width, 100 height
 
 
 	//HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);

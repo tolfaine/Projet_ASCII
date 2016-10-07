@@ -12,7 +12,11 @@ InputComponent::~InputComponent()
 }
 
 
-_Direction InputComponent::getDirection()
+Direction InputComponent::getDirection()
 {
-	return CENTER;
+
+	Direction dir;
+	dir.x = 0;
+	dir.y = 0;
+	return dir;
 }

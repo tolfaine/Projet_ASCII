@@ -35,12 +35,15 @@ public:
 	Coord getCoord() { return _coord; }
 	HitBox getHitBox() { return _hitbox; }
 	int getDamage() { return _damage; }
+
+	int getLife() { return _life; }
+
 	GameObjectType getType() { return _type; }
 
 	bool isDead() { return _dead; }
 
 	void setPosition(Coord newCoord);
-	void setDirection(_Direction);
+	void setDirection(Direction);
 	void setSprite(std::vector<Pixel> pixels);
 
 	void resetDirection();

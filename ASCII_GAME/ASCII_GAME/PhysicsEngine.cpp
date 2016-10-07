@@ -32,8 +32,23 @@ void PhysicsEngine::update(long elaspedMS)
 			continue;
 
 		oCoord = current->getCoord();
-		oCoord.x += current->getDirection().x * current->getSpeed() * elaspedMS;
-		oCoord.y += current->getDirection().y * current->getSpeed() * elaspedMS;
+
+
+		double modCoordX = current->getDirection().x * current->getSpeed(); // *elaspedMS;
+		double modCoordY = current->getDirection().y * current->getSpeed() * 0.5;  //*elaspedMS;
+
+		double newCoordX = oCoord.x + modCoordX;
+		double newCoordY = oCoord.y + modCoordY;
+
+		
+
+		if (newCoordX>= MIN_WIDTH && newCoordX + current->getHitBox().width <= SCREEN_WIDTH) {
+			oCoord.x += modCoordX;
+
+		}
+		if (newCoordY >= MIN_HEIGHT && newCoordY + current->getHitBox().height  <= SCREEN_HEIGHT) {
+			oCoord.y += modCoordY;
+		}
 
 		current->setPosition(oCoord);
 

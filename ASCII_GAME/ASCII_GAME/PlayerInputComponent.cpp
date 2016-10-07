@@ -11,26 +11,27 @@ PlayerInputComponent::~PlayerInputComponent()
 }
 
 
-_Direction PlayerInputComponent::getDirection()
+Direction PlayerInputComponent::getDirection()
 {
+	Direction dir;
+	dir.x = 0;
+	dir.y = 0;
+
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{
-		return LEFT;
+		dir.x += -1;
 	}
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
-		return RIGHT;
+		dir.x += 1;
 	}
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
 	{
-		return DOWN;
+		dir.y += -1;
 	}
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 	{
-		return UP;
+		dir.y+= 1;
 	}
-	else
-	{
-		return CENTER;
-	}
+	return dir;
 }

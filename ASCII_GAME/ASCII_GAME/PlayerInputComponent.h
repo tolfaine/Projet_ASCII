@@ -14,7 +14,7 @@ public:
 	~PlayerInputComponent();
 
 
-	virtual _Direction getDirection();
+	virtual Direction getDirection();
 
 
 

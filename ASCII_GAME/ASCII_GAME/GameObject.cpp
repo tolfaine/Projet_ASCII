@@ -16,7 +16,7 @@ GameObject::GameObject(Game* g, InputComponent* i, double x, double y, int life,
 
 	_type = type;
 
-	_hitbox.height = 5;
+	_hitbox.height = 3;
 	_hitbox.width = 5;
 
 	_speed = 2.0;
@@ -39,10 +39,10 @@ void GameObject::handleInputs()
 void GameObject::takeDamage(GameObject* obj)
 {
 	//cout << "TAKE THAT MOTHERFUCKER" << endl;
-	if (obj->getType() == _type)
+	if (obj->getType() != _type)
 	{
 		_life -= obj->getDamage();
-		if (_life < 0)
+		if (_life <= 0)
 		{
 			_dead = true;
 		}
@@ -65,26 +65,10 @@ void GameObject::setSprite(vector<Pixel> pixels)
 }
 
 
-void GameObject::setDirection(_Direction direction)
+void GameObject::setDirection(Direction direction)
 {
-	resetDirection();
-	switch (direction)
-	{
-	case UP:
-		_direction.y = 1;
-		break;
-	case DOWN:
-		_direction.y = -1;
-		break;
-	case LEFT:
-		_direction.x = -1;
-		break;
-	case RIGHT:
-		_direction.x = 1;
-		break;
-	case CENTER:
-		break;
-	}
+	//resetDirection();
+	_direction = direction;
 		
 }
 

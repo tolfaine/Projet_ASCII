@@ -7,21 +7,25 @@ using namespace std;
 Game::Game()
 {
 
-	GameObject* g1 = new GameObject(this, new PlayerInputComponent(), 5.0, 5.0,10,3,HERO);
+	GameObject* g1 = new GameObject(this, new PlayerInputComponent(), 5.0, 5.0,10,5,HERO);
 	g1->setSprite(populateSpriteHero(g1->getRenderInfo().pixels));
+
+	player = g1;
+
 	GameObject* g2 = new GameObject(this, new InputComponent(), 20.0, 20.0,5,0,ENEMY);
 	g2->setSprite(populateSpriteHero(g2->getRenderInfo().pixels));
+
 	_gameObjects.push_back(g1);
 	_gameObjects.push_back(g2);
 
 
 	_physics = new PhysicsEngine(this);
 	_inputs = new InputEngine(this);
-
+	_gameUI = new UI(this);
 	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
-	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT };
+	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT+10 };
 	dwBufferCoord = { 0, 0 };
-	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT+10 };
 
 }
 
@@ -61,8 +65,8 @@ void Game::update(double elaspedMS)
 {
 	_inputs->handleInputs();
 	_physics->update(elaspedMS);
-
-	//takeCareOfDeadBodies();
+	_gameUI->update();
+	takeCareOfDeadBodies();
 }
 
 
@@ -74,8 +78,9 @@ void Game::takeCareOfDeadBodies()
 		if (_gameObjects[i]->isDead())
 		{
 			delete _gameObjects[i];
+			_gameObjects.erase(_gameObjects.begin() + 1);
 		}
-		_gameObjects.clear();
+		//_gameObjects.clear();
 	}
 }
 
@@ -87,6 +92,7 @@ void Game::renderGraphics()
 		drawSprite(gObject->getRenderInfo());
 	}
 
+	drawSprite(_gameUI->getRenderInfo());
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)map, dwBufferSize,
 		dwBufferCoord, &rcRegion);
 }
@@ -145,7 +151,7 @@ vector<Pixel>& Game::populateSpriteHero(vector<Pixel>& spriteSheet)
 	spriteSheet.push_back(Pixel{ c,1,2 });
 
 
-	c.Char.UnicodeChar = '92';
+	c.Char.UnicodeChar = 92;
 	c.Attributes = 0x0A;
 	spriteSheet.push_back(Pixel{ c,2,0 });
 
@@ -153,7 +159,7 @@ vector<Pixel>& Game::populateSpriteHero(vector<Pixel>& spriteSheet)
 	c.Attributes = 0x0A;
 	spriteSheet.push_back(Pixel{ c,2,1 });
 
-	c.Char.UnicodeChar = '47';
+	c.Char.UnicodeChar = 47;
 	c.Attributes = 0x0A;
 	spriteSheet.push_back(Pixel{ c,2,2 });
 
@@ -185,3 +191,4 @@ vector<Pixel>& Game::populateSpriteHero(vector<Pixel>& spriteSheet)
 
 	return spriteSheet;
 }
+

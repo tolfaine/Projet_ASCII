@@ -12,7 +12,7 @@ public:
 	InputComponent();
 	~InputComponent();
 
-	virtual _Direction getDirection();
+	virtual Direction getDirection();
 
 
 protected:

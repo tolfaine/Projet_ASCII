@@ -6,6 +6,7 @@
 #include "Structures.h"
 #include "Game.h"
 #include "GameObject.h"
+#include "Parametres.h"
 
 class Game;
 
