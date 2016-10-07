@@ -72,8 +72,16 @@ void GameObject::takeDamage(GameObject* obj)
 void GameObject::setPosition(Coord newCoord)
 {
 	_coord = newCoord;
+	
+	if (_coord.x > SCREEN_WIDTH || _coord.x < 0 || _coord.y > SCREEN_HEIGHT || _coord.y < 0)
+	{
+		_dead = true;
+	}
+	
 	_sprite.coord.X = (SHORT)_coord.x;
 	_sprite.coord.Y = (SHORT)_coord.y;
+
+	
 }
 
 

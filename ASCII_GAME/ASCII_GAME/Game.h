@@ -52,7 +52,7 @@ public:
 
 	std::vector<Pixel>& populateSpriteHero(std::vector<Pixel>& spriteSheet);
 	std::vector<Pixel>& populateSpriteMissile(std::vector<Pixel>& spriteSheet);
-
+	std::vector<Pixel>& populateSpriteEnemy(std::vector<Pixel>& spriteSheet);
 
 private:
 	

@@ -35,7 +35,7 @@ void UI::update() {
 	int startLifeDraw = (SCREEN_WIDTH / 2) + ((maxLife + 2) / 2);
 
 	for (int i = 0; i < SCREEN_WIDTH; i++) {
-		_sprite.pixels.push_back(Pixel{ c,(SCREEN_WIDTH,SCREEN_HEIGHT });
+		_sprite.pixels.push_back(Pixel{ c,(SCREEN_WIDTH,SCREEN_HEIGHT )});
 		_sprite.pixels.push_back(Pixel{ c,i,MIN_HEIGHT - 1 });
 	}
 

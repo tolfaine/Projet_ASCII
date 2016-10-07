@@ -54,7 +54,7 @@ void Game::run()
 void Game::update()
 {
 	_physics->update(_gameObjects);
-	_gameUI->update();
+	//_gameUI->update();
 	takeCareOfDeadBodies();
 }
 
@@ -140,7 +140,8 @@ void Game::addGameObjects()
 			speed);
 
 		if (data.type == T_MISSILE) g->setSprite(populateSpriteMissile(g->getRenderInfo().pixels));
-		//if (data.type == T_PLAYER) g->setSprite(populateSpriteHero(g->getRenderInfo().pixels));
+		else if (data.type == T_PLAYER) g->setSprite(populateSpriteHero(g->getRenderInfo().pixels));
+		else if (data.type == T_ENEMY) g->setSprite(populateSpriteEnemy(g->getRenderInfo().pixels));
 		else g->setSprite(populateSpriteHero(g->getRenderInfo().pixels));
 		
 
@@ -259,6 +260,26 @@ vector<Pixel>& Game::populateSpriteMissile(vector<Pixel>& spriteSheet)
 	c.Attributes = 0x0A;
 	spriteSheet.push_back(Pixel{ c, 2, 0 });
 
+
+	return spriteSheet;
+}
+
+
+vector<Pixel>& Game::populateSpriteEnemy(vector<Pixel>& spriteSheet)
+{
+
+	CHAR_INFO c;
+	c.Char.UnicodeChar = '/';
+	c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 1, 0 });
+
+	c.Char.UnicodeChar = '\\';
+		c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 1, 2 });
+
+	c.Char.UnicodeChar = '<';
+	c.Attributes = 0x0A;
+	spriteSheet.push_back(Pixel{ c, 0, 1 });
 
 	return spriteSheet;
 }

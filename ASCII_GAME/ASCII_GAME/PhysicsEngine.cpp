@@ -41,11 +41,11 @@ void PhysicsEngine::update(vector<GameObject*>& gObjects)
 
 		
 
-		if (newCoordX>= MIN_WIDTH && newCoordX + current->getHitBox().width <= SCREEN_WIDTH) {
+		if (/*newCoordX>= MIN_WIDTH &&*/ newCoordX + current->getHitBox().width <= SCREEN_WIDTH) {
 			oCoord.x += modCoordX;
 
 		}
-		if (newCoordY >= MIN_HEIGHT && newCoordY + current->getHitBox().height  <= SCREEN_HEIGHT) {
+		if (/*newCoordY >= MIN_HEIGHT &&*/ newCoordY + current->getHitBox().height  <= SCREEN_HEIGHT) {
 			oCoord.y += modCoordY;
 		}
 

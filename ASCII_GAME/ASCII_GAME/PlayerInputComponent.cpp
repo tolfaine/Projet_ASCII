@@ -1,8 +1,15 @@
 #include "PlayerInputComponent.h"
 
 
+using namespace std;
+
+
 PlayerInputComponent::PlayerInputComponent()
 {
+	_timer.start();
+
+	_previous = _timer.getElapsedSeconds();
+	_current = _timer.getElapsedSeconds();
 }
 
 
@@ -39,9 +46,16 @@ Direction PlayerInputComponent::getDirection()
 
 bool PlayerInputComponent::isFiring()
 {
+
 	if (GetAsyncKeyState(VK_NUMPAD0) & 0x8000)
 	{
-		return true;
+		_current = _timer.getElapsedSeconds();
+		//cout << _current - _previous << endl;
+		if (_current - _previous > FIRING_FREQUENCE)
+		{
+			_previous = _current;
+			return true;
+		}
 	}
 	return false;
 }
