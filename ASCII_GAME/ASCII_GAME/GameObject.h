@@ -38,6 +38,7 @@ public:
 
 	int getLife() { return _life; }
 
+	int getMaxLife() { return _maxLife; }
 	GameObjectType getType() { return _type; }
 
 	bool isDead() { return _dead; }
@@ -57,6 +58,7 @@ protected:
 	Direction _direction;
 	double _speed;
 	int _life;
+	int _maxLife;
 	int _damage;
 
 	GameObjectType _type;

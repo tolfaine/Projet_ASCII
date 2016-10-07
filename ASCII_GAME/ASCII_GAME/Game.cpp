@@ -22,10 +22,16 @@ Game::Game()
 	_physics = new PhysicsEngine(this);
 	_inputs = new InputEngine(this);
 	_gameUI = new UI(this);
+
 	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
+	rOutput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
 	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT+10 };
 	dwBufferCoord = { 0, 0 };
-	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT+10 };
+	rcRegion = { 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT+10 -1 };
+
+	SetConsoleWindowInfo(hOutput, TRUE, &rcRegion);
+	SetConsoleScreenBufferSize(hOutput, dwBufferSize);
+
 
 }
 

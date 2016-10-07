@@ -1,8 +1,10 @@
-// ASCII_GAME.cpp : Defines the entry point for the console application.
+﻿// ASCII_GAME.cpp : Defines the entry point for the console application.
 //
 
 #include "Game.h"
-
+#include <iostream>
+#include <io.h>
+#include <fcntl.h>
 
 #include <windows.h>
 int main(void)
@@ -13,6 +15,8 @@ int main(void)
 
 	MoveWindow(console,50, 50,1300,600, TRUE); // 800 width, 100 height
 
+	_setmode(_fileno(stdout), _O_U16TEXT);
+//	std::wcout << L"Testing unicode --ৡ -- Ελληνικά -- Español." << std::endl;
 
 	//HANDLE hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -39,6 +43,8 @@ int main(void)
 	Game game;
 
 	game.run();
+
+
 
     return 0;
 }

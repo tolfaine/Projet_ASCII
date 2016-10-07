@@ -31,13 +31,48 @@ void UI::update() {
 
 
 	int life = _game->getPlayer()->getLife();
-	int maxLife = 10;
-	int startLifeDraw = (SCREEN_WIDTH / 2) + ((maxLife + 2) / 2);
+	int maxLife = _game->getPlayer()->getMaxLife();
+	double pourcLife = life / maxLife;
+	int cellSize =5;
+	int startLifeDrawX = (SCREEN_WIDTH / 2) - ((maxLife*cellSize + 2) / 2);
 
-	for (int i = 0; i < SCREEN_WIDTH; i++) {
-		_sprite.pixels.push_back(Pixel{ c,(SCREEN_WIDTH,SCREEN_HEIGHT });
-		_sprite.pixels.push_back(Pixel{ c,i,MIN_HEIGHT - 1 });
+
+	c.Char.UnicodeChar = '-';
+	c.Attributes = 0x0A;
+
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX - 1,SCREEN_HEIGHT + 1 });
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX - 1,SCREEN_HEIGHT + 2 });
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX - 1,SCREEN_HEIGHT + 3 });
+
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX + maxLife*cellSize,SCREEN_HEIGHT + 1 });
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX + maxLife*cellSize ,SCREEN_HEIGHT + 2 });
+	_sprite.pixels.push_back(Pixel{ c,startLifeDrawX + maxLife*cellSize ,SCREEN_HEIGHT + 3 });
+
+	for (int i = 0; i < maxLife*cellSize; i++) {
+		_sprite.pixels.push_back(Pixel{ c,startLifeDrawX + i,SCREEN_HEIGHT+1 });
+		_sprite.pixels.push_back(Pixel{ c,startLifeDrawX  + i,SCREEN_HEIGHT + 3 });
 	}
+
+	int currentLifeX = life*cellSize;
+	c.Attributes = 0x0A;
+
+	c.Char.UnicodeChar = 0x2588;
+	int b = life * 100 / maxLife;
+	// 0x0C : rouge      E : jaune   A :vert
+	if (life / (double)maxLife > 0.66){
+		c.Attributes = 0x0A;
+	}
+	else if (life / (double)maxLife> 0.33){
+		c.Attributes = 0x0E;
+	}
+	else if (life / (double)maxLife> 0) {
+		c.Attributes = 0x0C;
+	}
+
+	for (int i = 0; i < currentLifeX; i++) {
+		_sprite.pixels.push_back(Pixel{ c,startLifeDrawX + i,SCREEN_HEIGHT + 2 });
+	}
+
 
 
 	/*

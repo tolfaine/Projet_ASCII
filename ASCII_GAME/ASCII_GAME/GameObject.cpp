@@ -12,6 +12,7 @@ GameObject::GameObject(Game* g, InputComponent* i, double x, double y, int life,
 	_direction.y = 0;
 
 	_life = life;
+	_maxLife = life;
 	_damage = damage;
 
 	_type = type;

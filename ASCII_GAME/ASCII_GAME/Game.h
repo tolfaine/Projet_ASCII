@@ -71,6 +71,7 @@ private:
 	CHAR_INFO map[SCREEN_HEIGHT+10][SCREEN_WIDTH];
 	
 	HANDLE hOutput;
+	HANDLE rOutput;
 	COORD dwBufferSize;
 	COORD dwBufferCoord;
 	SMALL_RECT rcRegion;
