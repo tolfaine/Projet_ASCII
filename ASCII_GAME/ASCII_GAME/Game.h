@@ -45,6 +45,7 @@ public:
 	void addGameObjects();
 	std::vector<GameObject*> getGameObjects() { return _gameObjects; }
 	
+	UI* getUI() { return _gameUI; }
 	
 	GameObject* getPlayer() { return player; }
 
@@ -68,7 +69,6 @@ private:
 	
 	GameObject* player;
 
-	
 	NYTimer _timer;
 
 

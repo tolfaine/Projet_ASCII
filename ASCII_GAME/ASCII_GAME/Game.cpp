@@ -9,7 +9,16 @@ Game::Game()
 
 	createGameObject(GameObjectData{ { 5.0, 5.0 }, F_HERO, T_PLAYER });
 	createGameObject(GameObjectData{ { 20.0, 20.0 }, F_ENEMY, T_ENEMY});
+	addGameObjects();
 
+	for (GameObject* g : _gameObjects)
+	{
+		if (g->getType() == T_PLAYER)
+		{
+			player = g;
+		}
+	}
+	
 	_graphics = new GraphicsEngine();
 	_physics = new PhysicsEngine();
 	_inputs = new InputEngine();
@@ -54,7 +63,7 @@ void Game::run()
 void Game::update()
 {
 	_physics->update(_gameObjects);
-	//_gameUI->update();
+	_gameUI->update();
 	takeCareOfDeadBodies();
 }
 
@@ -67,14 +76,13 @@ void Game::inputs()
 
 void Game::render()
 {
-	_graphics->renderGraphics(_gameObjects);
+	_graphics->renderGraphics(_gameObjects,_gameUI);
 }
 
 
 void Game::createGameObject(GameObjectData data)
 {
 	_gameObjectsData.push_back(data);
-
 }
 
 void Game::addGameObjects()
@@ -152,6 +160,10 @@ void Game::addGameObjects()
 	_gameObjectsData.clear();
 
 }
+
+
+
+
 
 
 

@@ -21,6 +21,7 @@ GameObject::GameObject(
 	setPosition(Coord{ x, y });
 	_hitbox = hitbox;
 	_life = life;
+	_maxLife = life;
 	_damage = damage;
 	_faction = faction;
 	_type = type;

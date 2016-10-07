@@ -8,9 +8,13 @@ using namespace std;
 GraphicsEngine::GraphicsEngine()
 {
 	hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
+	rOutput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
 	dwBufferSize = { SCREEN_WIDTH, SCREEN_HEIGHT+10 };
 	dwBufferCoord = { 0, 0 };
 	rcRegion = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT+10 };
+
+	SetConsoleWindowInfo(hOutput, TRUE, &rcRegion);
+	SetConsoleScreenBufferSize(hOutput, dwBufferSize);
 }
 
 
@@ -21,14 +25,14 @@ GraphicsEngine::~GraphicsEngine()
 
 
 
-void GraphicsEngine::renderGraphics(vector<GameObject*> objects)
+void GraphicsEngine::renderGraphics(vector<GameObject*> objects, UI* gameUI)
 {
 	clear();
 	for (GameObject* gObject : objects) {
 		drawSprite(gObject->getRenderInfo());
 	}
 
-	//drawSprite(_gameUI->getRenderInfo());
+	drawSprite(gameUI->getRenderInfo());
 	WriteConsoleOutput(hOutput, (CHAR_INFO*)map, dwBufferSize,
 		dwBufferCoord, &rcRegion);
 }
